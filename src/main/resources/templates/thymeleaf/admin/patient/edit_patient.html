@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>Admin- Edit Patient</title>
+    <th:block th:fragment="optional-css">
+        <link th:href="@{/assets/vendor/bootstrap-datepicker/css/bootstrap-datepicker.css}" th:rel="stylesheet">
+        <link th:href="@{/assets/vendor/bootstrap-datepicker/css/bootstrap-datepicker.standalone.css}" th:rel="stylesheet">
+    </th:block>
+
+</head>
+<body>
+
+
+<div layout:fragment="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+
+                <div class="card-header">
+                    <span class="h2">Edit Patient</span>
+                    <a th:href="@{/admin/patient/}" class="btn btn-success float-right"><i class="fas fa-arrow-left"></i> &nbsp; Back</a>
+                </div>
+
+
+                <div class="card-body" >
+
+                    <form class="form-horizontal" th:action="@{/admin/patients/edit}"  th:object="${patient}" accept-charset="utf-8" method="post" >
+                        <input  type="hidden" name= type="text" th:field="*{id}" class="form-control"/>
+                        <div class="form-group row">
+                            <label class="col-sm-2" for="firstName" > First Name</label>
+                            <div class="col-sm-10">
+                                <input  id="firstName" type="text" title="firstName" th:field="*{firstName}" class="form-control"/>
+                                <span th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}" class="text-danger">First Name Error</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group row" >
+                            <label class="col-sm-2" for="lastName" > Last Name</label>
+                            <div class="col-sm-10">
+                                <input  id="lastName"  th:field="*{lastName}" type="text" title="lastName" class="form-control"/>
+                                <span th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" class="text-danger">Last Name Error</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group row" >
+                            <label class="col-sm-2" for="gender" > Gender</label>
+                            <div class="col-sm-10">
+                                <input readonly="readonly" id="gender" type="text" title="gender" th:field="*{gender}" class="form-control"/>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group row" >
+                            <label class="col-sm-2" for="address" > Address</label>
+                            <div class="col-sm-10">
+                                <input  id="address"  th:field="*{address}" type="text" title="address" class="form-control"/>
+                                <span th:if="${#fields.hasErrors('address')}" th:errors="*{address}" class="text-danger">Address Error</span>
+                            </div>
+                        </div>
+
+
+
+                        <div class="form-group row" >
+                            <label class="col-sm-2" for="dateOfBirth" > Date of Birth</label>
+                            <div class="col-sm-10 ">
+                                <input readonly="readonly" autocomplete="off"  th:field="*{dateOfBirth}" id="dateOfBirth" type="text" title="dateOfBirth"  class="form-control date"/>
+                            </div>
+                        </div>
+
+
+
+                        <div class="form-group row" >
+                            <label class="col-sm-2" for="nic" > NIC</label>
+                            <div class="col-sm-10">
+                                <input  id="nic" type="text" title="nic"    th:field="*{nic}" class="form-control"/>
+                                <span th:if="${#fields.hasErrors('nic')}" th:errors="*{nic}" class="text-danger">NIC Error</span>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group row" >
+                            <label class="col-sm-2" for="contactNo" > Contact No</label>
+                            <div class="col-sm-10">
+                                <input id="contactNo" type="text" title="contactNo"   th:field="*{contactNo}" class="form-control"/>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group row" >
+                            <label class="col-sm-2" for="email" > Email</label>
+                            <div class="col-sm-10">
+                                <input id="email"  type="email" title="email"  th:field="*{account.email}" class="form-control"/>
+                                <span th:if="${#fields.hasErrors('account.email')}" th:errors="*{account.email}" class="text-danger">Email Error</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-sm-4 offset-sm-2">
+                                <button type="reset" class="btn btn-secondary mb-2">
+                                    <i class="fas fa-times"></i>
+                                    <a th:href="@{/admin/patient}" >Cancel</a>
+                                </button>
+                                <button type="submit" class="btn btn-primary mb-2"><i class="fas fa-save"></i> Save</button>
+                            </div>
+                        </div>
+
+
+
+                    </form>
+                </div>
+
+            </div>
+        </div>
+
+
+
+
+
+
+
+    </div>
+</div>
+
+<th:block layout:fragment="optional-js" >
+    <script th:src="@{/assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.js}"></script>
+    <script th:src="@{/assets/vendor/popper/popper.mini.js}"></script>
+
+    <script>
+        $('.date').datepicker({
+            todayHighlight: true,
+            autoclose: true,
+            orientation: 'bottom'
+        });
+    </script>
+</th:block>
+
+</body>
+</html>

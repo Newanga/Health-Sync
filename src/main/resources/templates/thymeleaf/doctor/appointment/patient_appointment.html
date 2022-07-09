@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Doctor- Patient Appointment</title>
+    <th:block th:fragment="optional-css">
+        <link th:href="@{/assets/vendor/datatables/datatables.css}" th:rel="stylesheet">
+    </th:block>
+</head>
+<body>
+<div layout:fragment="container">
+    <p class="alert alert-success" th:if="${param.order}">Prescription order was sent to pharmacy.</p>
+    <div class="card-header">
+        <span class="h2">Current Patient</span>
+        <a th:href="@{/doctor/today/}" class="btn btn-success float-right"><i class="fas fa-arrow-left"></i> &nbsp; Back</a>
+    </div>
+
+    <div class="box box-primary">
+        <div class="box-body">
+
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+
+                <li class="nav-item">
+                    <a class="nav-link active" id="info-tab" data-toggle="tab" href="#info" role="tab" >Info</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" id="medication-tab" data-toggle="tab" href="#medication" role="tab" >Medication</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" id="prescription-tab" data-toggle="tab" href="#prescription" role="tab">Prescription</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" id="alergy-tab" data-toggle="tab" href="#alergy" role="tab">Alergy</a>
+                </li>
+            </ul>
+
+            <div class="tab-content" id="myTabContent">
+
+                <div class="tab-pane fade active show" id="info" role="tabpanel" >
+                        <div class="col-md-12 col-lg-12" >
+
+                                <div class="card-body" th:object="${medication.appointment.patient}">
+
+                                    <div class="form-group row">
+                                        <label class="col-sm-2" for="firstName" > First Name</label>
+                                        <div class="col-sm-10">
+                                            <input disabled="disabled" id="firstName" type="text" title="firstName" th:field="*{firstName}" class="form-control"/>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row" >
+                                        <label class="col-sm-2" for="lastName" > Last Name</label>
+                                        <div class="col-sm-10">
+                                            <input disabled="disabled" id="lastName"  th:field="*{lastName}" type="text" title="lastName" class="form-control"/>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row" >
+                                        <label class="col-sm-2" for="dateOfBirth" > Date of Birth</label>
+                                        <div class="col-sm-10 ">
+                                            <input disabled="disabled" autocomplete="off"  th:field="*{dateOfBirth}" id="dateOfBirth" type="text" title="dateOfBirth"  class="form-control date"/>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+
+                        </div>
+
+                </div>
+
+                <div class="tab-pane fade" id="medication"  th:object="${appointment}"   role="tabpanel" >
+                    <a th:href="@{|/doctor/medications/new/${id}|}"  class="btn btn-primary float-right"><i class="fas fa-pills"></i>&nbsp;New</a>
+                    <table id="medications" class="table table-hover DataTable" style="width:100%">
+                        <thead>
+                        <tr>
+                            <td>Date</td>
+                            <td>Doctor</td>
+                            <td>Specialization</td>
+                            <td></td>
+                        </tr>
+                        </thead>
+                    </table>
+
+                </div>
+
+                <div class="tab-pane fade" id="prescription" th:object="${prescription}"  role="tabpanel" >
+                        <a  th:href="@{|/doctor/prescriptions/new/${id}|}"  class="btn btn-primary float-right"><i class="fas fa-prescription"></i>&nbsp;New </a>
+                        <table id="prescriptions" class="table table-hover DataTable" style="width:100%">
+                            <thead>
+                            <tr>
+                                <td>Date</td>
+                                <td>Doctor</td>
+                                <td>Specialization</td>
+                                <td></td>
+                            </tr>
+                            </thead>
+                        </table>
+
+                </div>
+
+
+                <div class="tab-pane fade" id="alergy" th:object="${alergy}"  role="tabpanel" >
+                    <a  th:href="@{|/doctor/allergies/new/${id}|}"  class="btn btn-primary float-right"><i class="fas fa-allergies"></i></i>&nbsp;New </a>
+                    <table id="allergies" class="table table-hover DataTable" style="width:100%">
+                        <thead>
+                        <tr>
+                            <td>Title</td>
+                            <td>Description</td>
+                        </tr>
+                        </thead>
+                    </table>
+
+                </div>
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<th:block layout:fragment="optional-js" >
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+    <script th:src="@{/assets/vendor/moment/moment.mini.js}"></script>
+    <script th:src="@{/assets/vendor/datatables/datatables.js}"></script>
+
+
+    <script>
+        $(document).ready(function () {
+            const appNo=window.location.pathname.split("/").pop();
+            $('#medications').DataTable({
+                "ajax": {
+                    "url": "/doctor/medications/" +appNo ,
+                    "dataSrc":""
+                },
+                "columns": [
+                    {"data": "appointment.channel.dateTime",
+                        "render":function(data){
+                            return moment(data).format('MMMM Do YYYY');
+                        }, "width": "auto"},
+
+                    {"data": "appointment.channel.doctor",
+                        "render": function ( data, type, row ) {
+                            return 'Dr.' + data.firstName + ' ' + data.lastName;
+                        }, "width": "auto%"},
+
+                    {"data": "appointment.channel.doctor.specialization.name"  ,"width": "auto%"},
+
+                    {
+                        "data": "id",
+                        "render": function (data) {
+
+                            return ` <span style="display:block; text-align:center; margin:0 auto;">
+                             <a href="/doctor/medications/${appNo}/${data}" class="btn-sm btn-info text-white" style="cursor:pointer; width:100px;">
+                                    View
+                                </a>
+                    </span>`;
+
+                        }, "width": "auto"
+                    }
+                ],
+                "language": {
+                    "emptyTable": "no data found."
+                },
+                "width": "100%"
+            });
+        })
+    </script>
+
+
+    <script>
+        $(document).ready(function () {
+            const appNo=window.location.pathname.split("/").pop();
+            $('#prescriptions').DataTable({
+                "ajax": {
+                    "url": "/doctor/prescriptions/" + appNo,
+                    "dataSrc":""
+                },
+                "columns": [
+                    {"data": "appointment.channel.dateTime",
+                        "render":function(data){
+                            return moment(data).format('MMMM Do YYYY');
+                        }, "width": "auto"},
+
+                    {"data": "appointment.channel.doctor",
+                        "render": function ( data, type, row ) {
+                            return 'Dr.' + data.firstName + ' ' + data.lastName;
+                        }, "width": "auto%"},
+
+                    {"data": "appointment.channel.doctor.specialization.name"  ,"width": "auto%"},
+
+                    {
+                        "data": "id",
+                        "render": function (data) {
+                            return ` <span style="display:block; text-align:center; margin:0 auto;">
+                             <a href="/doctor/prescriptions/${appNo}/${data}" class="btn-sm btn-info text-white" style="cursor:pointer; width:100px;">
+                                    View
+                                </a>
+                    </span>`;
+
+                        }, "width": "auto"
+                    }
+                ],
+                "language": {
+                    "emptyTable": "no data found."
+                },
+                "width": "100%"
+            });
+        })
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            const appNo=window.location.pathname.split("/").pop();
+
+            $('#allergies').DataTable({
+                "ajax": {
+                    "url": "/doctor/allergies/" + appNo,
+                    "dataSrc":""
+                },
+                "columns": [
+                    {"data": "title"},
+                    {"data": "description"}
+                ],
+                "language": {
+                    "emptyTable": "no data found."
+                },
+                "width": "100%"
+            });
+        })
+
+    </script>
+
+</th:block>
+</body>
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Patient-Appointments</title>
+    <th:block th:fragment="optional-css">
+        <link th:href="@{/assets/vendor/datatables/datatables.css}" th:rel="stylesheet">
+    </th:block>
+</head>
+<body>
+
+<div layout:fragment="container">
+    <div class="row">
+        <div class="col-md-12 col-lg-12">
+            <p class="alert alert-danger" th:if="${error != null}" th:text="${error}"></p>
+            <div class="card">
+                <div class="card-header">
+                    <span class="h2">Past Appointments</span>
+                </div>
+                <div class="card-body">
+                    <table id="appointments" class="table table-hover DataTable" style="width:100%">
+                        <thead>
+                        <tr>
+                            <td>Doctor</td>
+                            <td>Specialization</td>
+                            <td>Date</td>
+                            <td>Day</td>
+                            <td>Time</td>
+                            <td>State</td>
+                        </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<th:block layout:fragment="optional-js" >
+    <script th:src="@{/assets/vendor/datatables/datatables.js}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+    <script>
+        $('#appointments').DataTable({
+            "ajax": {
+                "url": "/patient/appointments",
+                "dataSrc":""
+            },
+            "columns": [
+                {"data": "channel.doctor",
+                    "render": function ( data, type, row ) {
+                        return 'Dr.' + data.firstName + ' ' + data.lastName;
+                    }, "width": "auto%"},
+
+                {"data": "channel.doctor.specialization.name","width": "auto%"},
+
+                {"data": "channel.dateTime",
+                    "render":function(data){
+                        return moment(data).format('MMMM Do YYYY');
+                    }, "width": "auto"},
+
+                {"data": "channel.dateTime",
+                    "render":function(data){
+                        return moment(data).format('dddd');
+                    }, "width": "auto"},
+
+                {"data": "channel.dateTime",
+                    "render":function(data){
+                        return moment(data).format('hh:mm A');
+                    }, "width": "auto"},
+
+                {"data": "state", "width": "auto%"}
+            ],
+            "language": {
+                "emptyTable": "no data found."
+            },
+            "width": "100%"
+        });
+
+    </script>
+
+
+
+</th:block>
+
+</body>
+</html>

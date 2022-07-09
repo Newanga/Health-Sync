@@ -1,0 +1,1 @@
+A Hospital Management System with multiple modules to handle day to day activities in a Hospital.

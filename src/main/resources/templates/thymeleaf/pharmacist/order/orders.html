@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>Pharmacist- View Orders</title>
+    <th:block th:fragment="optional-css">
+        <link th:href="@{/assets/vendor/datatables/datatables.css}" th:rel="stylesheet">
+    </th:block>
+
+</head>
+<body>
+
+<div layout:fragment="container">
+    <div class="row">
+        <div class="col-md-12 col-lg-12">
+            <p class="alert alert-success" th:if="${param.complete}">Order is Complete.</p>
+            <p class="alert alert-danger" th:if="${param.cancel}">Order is canceled .</p>
+            <div class="card">
+                <div class="card-header">
+                    <span class="h2">Orders</span>
+                </div>
+                <div class="card-body">
+
+                    <table id="orders" class="table table-hover DataTable" style="width:100%">
+                        <thead>
+                        <tr>
+                            <td>Time</td>
+                            <td>Patient</td>
+                            <td>Doctor</td>
+                            <td></td>
+                        </tr>
+                        </thead>
+                    </table>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<th:block layout:fragment="optional-js" >
+    <script th:src="@{/assets/vendor/datatables/datatables.js}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+    <script>
+        $(document).ready(function () {
+
+            const table=$('#orders').DataTable({
+                "ajax": {
+                    "url": "/pharmacist/orders",
+                    "dataSrc":""
+                },
+                "columns": [
+
+
+                    {"data": "dateTime",
+                        "render":function(data){
+                            return moment(data).format('hh:mm A');
+                        }, "width": "auto"},
+
+
+                    {"data": "prescription.appointment.patient",
+                        "render": function ( data, type, row ) {
+                            return data.firstName + ' ' + data.lastName;
+                        }, "width": "auto%"},
+
+
+                    {"data": "prescription.appointment.channel.doctor",
+                        "render": function ( data, type, row ) {
+                            return 'Dr.' + data.firstName + ' ' + data.lastName;
+                        }, "width": "auto%"},
+
+                    {
+                        "data": "id",
+                        "render": function (data) {
+                            return ` <span style="display:block; text-align:center; margin:0 auto;">
+                             <a href="/pharmacist/orders/${data}" class="btn-sm btn-info text-white" style="cursor:pointer; width:100px;">
+                                    View
+                                </a>
+                    </span>`;
+
+                        }, "width": "auto"
+                    }
+                ],
+                "language": {
+                    "emptyTable": "no data found."
+                },
+                "width": "100%"
+            });
+
+            setInterval( function () {
+                table.ajax.reload();
+            }, 3000 );
+        })
+    </script>
+
+
+</th:block>
+
+</body>
+</html>

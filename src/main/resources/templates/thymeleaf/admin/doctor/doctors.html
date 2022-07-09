@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Admin-Doctors</title>
+    <th:block th:fragment="optional-css">
+        <link th:href="@{/assets/vendor/datatables/datatables.css}" th:rel="stylesheet">
+    </th:block>
+</head>
+<body>
+
+
+
+<div layout:fragment="container">
+    <div class="row">
+        <div class="col-md-12 col-lg-12">
+            <p class="alert alert-danger" th:if="${error != null}" th:text="${error}"></p>
+            <p class="alert alert-success" th:if="${param.success}">A new Doctor was added to the system successfully.</p>
+            <p class="alert alert-success" th:if="${param.update}">Doctor was updated successfully.</p>
+            <div class="card">
+                <div class="card-header">
+                    <span class="h2">Doctors</span>
+                    <a  th:href="@{/admin/doctors/new}"  class="btn btn-success float-right"><i class="fas fa-plus"></i> &nbsp; New Doctor</a>
+                </div>
+                <div class="card-body">
+                    <table id="doctors" class="table table-hover DataTable" style="width:100%">
+                        <thead>
+                        <tr>
+                            <td>Name</td>
+                            <td>Date of Birth</td>
+                            <td>NIC</td>
+                            <td>Contact No</td>
+                            <td></td>
+                        </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<th:block layout:fragment="optional-js" >
+    <script th:src="@{/assets/vendor/datatables/datatables.js}"></script>
+    <script>
+        $('#doctors').DataTable({
+            "ajax": {
+                "url": "/admin/doctors",
+                "dataSrc":""
+            },
+            "columns": [
+                {"data": "",
+                    "render": function ( data, type, row ) {
+                        return  'Dr. ' + row.firstName +'  '+ row.lastName ;
+                    }, "width": "auto"},
+                {"data": "dateOfBirth", "width": "auto%"},
+                {"data": "nic", "width": "auto%"},
+                {"data": "contactNo", "width": "auto%"},
+                {
+                    "data": "id",
+                    "render": function (data) {
+                        return ` <span style="display:block; text-align:center; margin:0 auto;">
+                             <a href="/admin/doctors/${data}" class="btn-sm btn-info text-white" style="cursor:pointer; width:100px;">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                                <a  href="/admin/doctors/edit/${data}" class=" btn-sm btn-warning text-black" style="cursor:pointer; width:100px;">
+                                   <i class="fas fa-pen-square"></i>
+                                </a>
+                    </span>`;
+
+                    }, "width": "auto"
+                }
+            ],
+            "language": {
+                "emptyTable": "no data found."
+            },
+            "width": "100%"
+        });
+
+    </script>
+
+
+
+</th:block>
+
+</body>
+</html>

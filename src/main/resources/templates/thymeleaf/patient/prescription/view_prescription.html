@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>Patient- View Prescription</title>
+    <th:block th:fragment="optional-css">
+        <link  th:href="@{/assets/vendor/summernote/summernote-bs4.css}" th:rel="stylesheet"/>
+    </th:block>
+
+</head>
+<body>
+
+
+<div layout:fragment="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+
+                <div class="card-header">
+                    <span class="h2">View Prescription</span>
+                    <a th:href="@{/patient/prescription}" class="btn btn-success float-right"><i class="fas fa-arrow-left"></i> &nbsp; Back</a>
+                </div>
+
+                <div class="card-body" th:object="${prescription}">
+
+
+
+                    <div class="form-group row" >
+                        <label class="col-sm-2" for="name" > Doctor</label>
+                        <div class="col-sm-10">
+                            <input disabled="disabled" id="name"  th:field="*{appointment.channel.doctor.fullName}" type="text" title="lastName" class="form-control"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group row" >
+                        <label class="col-sm-2" for="specialization" > Specialization</label>
+                        <div class="col-sm-10 ">
+                            <input disabled="disabled" autocomplete="off"  th:field="*{appointment.channel.doctor.specialization.name}" id="specialization" type="text" title="date"  class="form-control date"/>
+                        </div>
+                    </div>
+
+
+
+
+                    <div class="form-group row" >
+                            <label class="col-sm-2" for="date" > Date & Time</label>
+                            <div class="col-sm-10 ">
+                                <input disabled="disabled" autocomplete="off"  th:field="*{appointment.channel.dateTime}" id="date" type="text" title="date"  class="form-control date"/>
+                            </div>
+                    </div>
+
+                    <div class="form-group row" >
+                        <label class="col-sm-2" for="description" > Description</label>
+                        <div class="col-sm-10">
+                            <textarea  disabled="disabled"  id="description"  autocomplete="off" rows="10" type="text" title="description"  th:field="*{description}"  class="form-control"/>
+                        </div>
+                    </div>
+
+
+
+                </div>
+
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+<th:block layout:fragment="optional-js" >
+    <script th:src="@{/assets/vendor/popper/popper.min.js}"></script>
+    <script th:src="@{/assets/vendor/summernote/summernote-bs4.js}"></script>
+
+    <script>
+        $('#description').summernote({
+            height: 200
+        });
+        $('#description').summernote('disable');
+    </script>
+</th:block>
+
+</body>
+</html>

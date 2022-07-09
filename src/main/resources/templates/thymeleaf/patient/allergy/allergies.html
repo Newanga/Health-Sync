@@ -1,0 +1,64 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Patient - Allergies</title>
+    <th:block th:fragment="optional-css">
+        <link th:href="@{/assets/vendor/datatables/datatables.css}" th:rel="stylesheet">
+    </th:block>
+</head>
+<body>
+
+<div layout:fragment="container">
+    <div class="row">
+        <div class="col-md-12 col-lg-12">
+            <div class="card">
+                <div class="card-header">
+                    <span class="h2">Allergies</span>
+                </div>
+                <div class="card-body">
+
+                    <table id="allergies" class="table table-hover DataTable" style="width:100%">
+                        <thead>
+                        <tr>
+                            <td>Title</td>
+                            <td>Description</td>
+                        </tr>
+                        </thead>
+                    </table>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<th:block layout:fragment="optional-js" >
+    <script th:src="@{/assets/vendor/datatables/datatables.js}"></script>
+    
+    <script>
+        $(document).ready(function () {
+            const appNo=window.location.pathname.split("/").pop();
+
+            $('#allergies').DataTable({
+                "ajax": {
+                    "url": "/patient/allergies/",
+                    "dataSrc":""
+                },
+                "columns": [
+                    {"data": "title"},
+                    {"data": "description"}
+                ],
+                "language": {
+                    "emptyTable": "no data found."
+                },
+                "width": "100%"
+            });
+        })
+
+    </script>
+
+</th:block>
+</body>
+</html>

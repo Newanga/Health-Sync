@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title layout:title-pattern="$CONTENT_TITLE - $LAYOUT_TITLE"></title>
+    <link th:href="@{/assets/vendor/bootstrap/css/bootstrap.min.css}" th:rel="stylesheet">
+    <link th:href="@{/assets/css/master.css}" th:rel="stylesheet">
+
+    <th:block layout:fragment="optional-css"/>
+</head>
+
+<body>
+
+<div class="wrapper">
+
+    <nav id="sidebar" class="active">
+        <div class="sidebar-header">
+            <img src="/assets/img/logo.svg" width="210" height="42" alt="logo" class="app-logo">
+        </div>
+
+        <!--   Admin Nav           -->
+        <ul sec:authorize="hasRole('ROLE_ADMIN')" class="list-unstyled components text-secondary">
+            <li>
+                <a th:href="@{/admin/dashboard}"><i class="fas fa-chart-line"></i>&nbsp;&nbsp;&nbsp;Dashboard</a>
+            </li>
+            <li>
+                <a th:href="@{/admin/patient}"><i class="fas fa-hospital-user"></i>&nbsp;&nbsp;&nbsp;Patient</a>
+            </li>
+            <li>
+                <a th:href="@{/admin/doctor}"><i class="fas fa-user-md"></i>&nbsp;&nbsp;&nbsp;Doctor</a>
+            </li>
+            <li>
+                <a th:href="@{/admin/labtechnician}"><i class="fas fa-vials"></i></i>&nbsp;&nbsp;Lab-Techniction</a>
+            </li>
+            <li>
+                <a th:href="@{/admin/pharmacist}"><i
+                        class="fas fa-prescription-bottle-alt"></i>&nbsp;&nbsp;Pharmacist</a>
+            </li>
+            <li>
+                <a th:href="@{/admin/receptionist}"><i class="fas fa-phone-office"></i>&nbsp;&nbsp;Receptionist</a>
+            </li>
+            <li>
+                <a th:href="@{/admin/specialization}"><i class="fas fa-briefcase-medical"></i>&nbsp;&nbsp;Doctor
+                    Specialization</a>
+            </li>
+            <li>
+                <a th:href="@{/admin/channel}"><i class="fas fa-stethoscope"></i>&nbsp;&nbsp;Doctor Channel</a>
+            </li>
+            <li>
+                <a th:href="@{/admin/appointment}"><i class="fas fa-calendar-alt"></i>&nbsp;&nbsp;Patient
+                    Appointment</a>
+            </li>
+
+            <li>
+                <a th:href="@{/admin/labtestcategory}"><i class="fas fa-vial"></i>&nbsp;&nbsp;Lab Test Category</a>
+            </li>
+
+            <li>
+                <a href="#reportmenu" data-toggle="collapse" aria-expanded="false"
+                   class="dropdown-toggle no-caret-down"><i class="fas fa-file-chart-pie"></i>&nbsp;&nbsp; Report</a>
+                <ul class="collapse list-unstyled" id="reportmenu">
+
+                    <li>
+                        <a th:href="@{/admin/doctorreport}"><i class="fas fa-angle-right"></i> Doctor</a>
+                    </li>
+                    <li>
+                        <a th:href="@{/admin/patientreport}"><i class="fas fa-angle-right"></i> Patient</a>
+                    </li>
+                    <li>
+                        <a th:href="@{/admin/channelreport}"><i class="fas fa-angle-right"></i> Channel</a>
+                    </li>
+                    <li>
+                        <a th:href="@{/admin/appointmentreport}" href=""><i class="fas fa-angle-right"></i> Appointment</a>
+                    </li>
+
+                </ul>
+            </li>
+            <li>
+                <a th:href="@{/admin/medication}"><i class="fas fa-capsules"></i>&nbsp;&nbsp;Medication</a>
+            </li>
+            <li>
+                <a th:href="@{/admin/prescription}"><i class="fas fa-prescription"></i>&nbsp;&nbsp;Prescription</a>
+            </li>
+        </ul>
+
+
+        <!--            Doctor Nav  -->
+        <ul sec:authorize="hasRole('ROLE_DOCTOR')" class="list-unstyled components text-secondary">
+
+            <li>
+                <a th:href="@{/doctor/today}"><i class="fas fa-calendar-check"></i>&nbsp;&nbsp;Today Appointments</a>
+            </li>
+
+            <li>
+                <a th:href="@{/doctor/channels }"><i class="fas fa-stethoscope"></i>&nbsp;&nbsp;Upcoming Channels</a>
+            </li>
+
+        </ul>
+
+
+        <!--      Receptionist            -->
+        <ul sec:authorize="hasRole('ROLE_RECEPTIONIST')" class="list-unstyled components text-secondary">
+
+            <li>
+                <a th:href="@{/receptionist/patient}"><i class="fas fa-hospital-user"></i>&nbsp;&nbsp;&nbsp;Patient</a>
+            </li>
+
+            <li>
+                <a th:href="@{/receptionist/appointment}"><i class="fas fa-calendar-alt"></i>&nbsp;&nbsp;Patient
+                    Appointment</a>
+            </li>
+
+        </ul>
+
+
+        <!--      Patient            -->
+        <ul sec:authorize="hasRole('ROLE_PATIENT')" class="list-unstyled components text-secondary">
+
+            <li>
+                <a th:href="@{/patient/medication}"><i class="fas fa-capsules"></i>&nbsp;&nbsp;Medication</a>
+            </li>
+
+            <li>
+                <a th:href="@{/patient/prescription}"><i class="fas fa-prescription"></i>&nbsp;&nbsp;Prescription</a>
+            </li>
+            <li>
+                <a th:href="@{/patient/allergy}"><i class="fas fa-allergies"></i>&nbsp;&nbsp;Allergy</a>
+            </li>
+            <li>
+                <a th:href="@{/patient/appointment}"><i class="fas fa-calendar-check"></i>&nbsp;&nbsp;&nbsp;Past
+                    Appointments</a>
+            </li>
+            <li>
+                <a th:href="@{/patient/channel}"><i class="fas fa-stethoscope"></i>&nbsp;&nbsp;Upcoming Channels</a>
+            </li>
+
+        </ul>
+
+
+        <!--    Lab Technicion            -->
+        <ul sec:authorize="hasRole('ROLE_LABTECHNICIAN')" class="list-unstyled components text-secondary">
+
+            <li>
+                <a th:href="@{/labtechnician/labtest}"><i class="fas fa-angle-right"></i> Lab Tests</a>
+            </li>
+
+        </ul>
+
+
+        <!--    Pharmacist           -->
+        <ul sec:authorize="hasRole('ROLE_PHARMACIST')" class="list-unstyled components text-secondary">
+
+            <li>
+                <a th:href="@{/pharmacist/order}"><i class="fas fa-shopping-cart"></i> Orders</a>
+            </li>
+
+        </ul>
+
+
+    </nav>
+
+    <div id="body" class="active">
+        <nav class="navbar navbar-expand-lg navbar-white bg-primary">
+            <button type="button" id="sidebarCollapse" class="btn btn-light"><i class="fas fa-bars"></i><span></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="nav navbar-nav ml-auto">
+                    <li class="nav-item dropdown">
+                        <div class="nav-dropdown">
+                            <a href="" class="nav-item nav-link dropdown-toggle text-light" data-toggle="dropdown">
+                                <i class="fas fa-user"></i>
+                                <span sec:authentication="principal.username">John Doe</span>
+                                <i style="font-size: .8em;" class="fas fa-caret-down"></i>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right nav-link-menu">
+                                <ul class="nav-list">
+                                    <li><a href="/logout" class="dropdown-item"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <br>
+        <br>
+        <div class="content">
+            <div layout:fragment="container" class="container"></div>
+        </div>
+    </div>
+
+</div>
+<script th:src="@{/assets/vendor/jquery/jquery.min.js}"></script>
+<script th:src="@{/assets/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/assets/vendor/fontawesome/js/all.js}"></script>
+<script th:src="@{/assets/js/script.js}"></script>
+
+
+<!-- Optional js -->
+<th:block layout:fragment="optional-js"/>
+</body>
+
+
+</html>

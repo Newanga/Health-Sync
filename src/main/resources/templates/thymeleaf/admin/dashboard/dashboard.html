@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Admin-Dashboard</title>
+    <th:block th:fragment="optional-css">
+        <link th:href="@{/assets/vendor/datatables/datatables.css}" th:rel="stylesheet">
+    </th:block>
+</head>
+<body>
+<div layout:fragment="container">
+    <div class="card">
+        <div class="card-header">
+            <span class="h2">Admin Dashboard</span>
+        </div>
+    </div>
+
+    <div class="row" >
+
+        <div class="col-sm-6 col-md-6 col-lg-4 mt-3">
+            <div class="card">
+                <div class="content">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="icon-big text-center">
+                                <i class="fas fa-user-cog"></i>
+                            </div>
+                        </div>
+                        <div class="col-sm-8">
+                            <div class="detail">
+                                <p class="detail-subtitle">Admin Accounts</p>
+                                <span class="number">1</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-sm-6 col-md-6 col-lg-4  mt-3">
+            <div class="card">
+                <div class="content">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="icon-big text-center">
+                                <i class="fas fa-hospital-user"></i>
+                            </div>
+                        </div>
+                        <div class="col-sm-8">
+                            <div class="detail">
+                                <p class="detail-subtitle">Patient Accounts</p>
+                                <span class="number" th:text="${dash.patientCount}"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-6 col-md-6 col-lg-4  mt-3">
+            <div class="card">
+                <div class="content">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="icon-big text-center">
+                                <i class="fas fa-user-md"></i>
+                            </div>
+                        </div>
+                        <div class="col-sm-8">
+                            <div class="detail">
+                                <p class="detail-subtitle">Doctor Accounts</p>
+                                <span class="number" th:text="${dash.doctorCount}"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-6 col-md-6 col-lg-4 mt-3">
+            <div class="card">
+                <div class="content">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="icon-big text-center">
+                                <i class="fas fa-phone-office"></i>
+                            </div>
+                        </div>
+                        <div class="col-sm-8">
+                            <div class="detail">
+                                <p class="detail-subtitle">Receptionist Accounts</p>
+                                <span class="number" th:text="${dash.receptionistCount}"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-6 col-md-6 col-lg-4  mt-3">
+            <div class="card">
+                <div class="content">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="icon-big text-center">
+                                <i class="fas fa-prescription-bottle-alt"></i>
+                            </div>
+                        </div>
+                        <div class="col-sm-8">
+                            <div class="detail">
+                                <p class="detail-subtitle">Pharmacist Accounts</p>
+                                <span class="number" th:text="${dash.pharmacistCount}"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-sm-6 col-md-6 col-lg-4  mt-3">
+            <div class="card">
+                <div class="content">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="icon-big text-center">
+                                <i class="fas fa-vials"></i>
+                            </div>
+                        </div>
+                        <div class="col-sm-8">
+                            <div class="detail">
+                                <p class="detail-subtitle">Lab-Tech Accounts</p>
+                                <span class="number" th:text="${dash.labTechnicianCount}"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-6 col-md-6 col-lg-6  mt-3">
+            <div class="card">
+                <div class="content">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="icon-big text-center">
+                                <i class="far fa-calendar-check"></i>
+                            </div>
+                        </div>
+                        <div class="col-sm-8">
+                            <div class="detail">
+                                <p class="detail-subtitle">Total Appointments Today</p>
+                                <span class="number" th:text="${dash.channelsToday}"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-6 col-md-6 col-lg-6  mt-3">
+            <div class="card">
+                <div class="content">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="icon-big text-center">
+                                <i class="fas fa-hospital"></i>
+                            </div>
+                        </div>
+                        <div class="col-sm-8">
+                            <div class="detail">
+                                <p class="detail-subtitle">Total Channels Today</p>
+                                <span class="number" th:text="${dash.appointmentsToday}"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 col-lg-12">
+            <div class="card">
+                <div class="card-header">
+                    <span class="h2">Channels Available</span>
+                </div>
+                <div class="card-body">
+                    <table id="channels" class="table table-hover DataTable" style="width:100%">
+                        <thead>
+                        <tr>
+                            <td>Doctor</td>
+                            <td>Specialization</td>
+                            <td>Date</td>
+                            <td>Day</td>
+                            <td>Time</td>
+                            <td>Patients</td>
+                            <td>State</td>
+                        </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<th:block layout:fragment="optional-js" >
+    <script th:src="@{/assets/vendor/datatables/datatables.js}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+    <script>
+        $('#channels').DataTable({
+            "ajax": {
+                "url": "/admin/upcoming",
+                "dataSrc":""
+            },
+            "columns": [
+                {"data": "doctor.fullName", "width": "auto"},
+                {"data": "doctor.specialization.name","width": "auto%"},
+                {"data": "date",
+                    "render":function(data){
+                        return moment(data).format('MMMM Do YYYY');
+                    }, "width": "auto"},
+                {"data": "day", "width": "auto%"},
+                {"data": "time", "width": "auto%"},
+                {"data": "patientCount", "width": "auto%"},
+                {"data": "state", "width": "auto%"}
+            ],
+            "language": {
+                "emptyTable": "no data found."
+            },
+            "width": "100%"
+        });
+
+    </script>
+
+
+
+</th:block>
+
+</body>
+</html>

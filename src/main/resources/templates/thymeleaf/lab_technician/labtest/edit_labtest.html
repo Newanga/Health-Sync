@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>Lab Technicion- Edit Lab Test</title>
+</head>
+<body>
+<div layout:fragment="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <p class="alert alert-danger" th:if="${error != null}" th:text="${error}"></p>
+            <div class="card">
+                <div class="card-header" >
+                    <span class="h2">New Lab Test</span>
+                    <a th:href="@{/labtechnician/labtest/}"  class="btn btn-success float-right"><i class="fas fa-arrow-left"></i> &nbsp; Back</a>
+                </div>
+
+                <div class="card-body">
+                    <form class="form-horizontal" enctype="multipart/form-data" th:object="${labtest}" th:action="@{/labtechnician/labtests/edit}"  accept-charset="utf-8" method="post" >
+
+                        <input hidden="hidden" id="id" type="text"  th:field="*{id}"  class="form-control"/>
+
+                        <div class="form-group row" >
+                            <label class="col-sm-2" for="category.name" >Category</label>
+                            <div class="col-sm-10">
+                                <input disabled="disabled" id="category.name" type="text"  th:field="*{category.name}"  class="form-control"/>
+                            </div>
+                        </div>
+
+                        <div class="form-group row" >
+                            <label class="col-sm-2" for="patientId" > Patient Id</label>
+                            <div class="col-sm-10">
+                                <input disabled="disabled" id="patientId" type="text" title="patient.id"   th:field="*{patient.id}"  class="form-control"/>
+                            </div>
+                        </div>
+
+                        <div class="form-group row" >
+                            <label class="col-sm-2" for="receivedDate" > Received Date</label>
+                            <div class="col-sm-10">
+                                <input disabled="disabled" id="receivedDate"  th:field="*{receivedDate}" type="text" title="lastName" class="form-control"/>
+                            </div>
+                        </div>
+
+                        <div class="form-group row " >
+                            <label class="col-sm-2" for="report" > Report File</label>
+                            <div class="col-sm-10">
+                                <input type="file"  id="report"  th:field="*{report}" class="custom-file"/>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-2">Channel State</label>
+                            <div class="col-sm-10 select">
+                                <select th:field="*{state}" class="form-control" >
+                                    <option value="None" disabled="disabled">Select Channel State</option>
+                                    <option th:each="state : ${T(com.team98.healthsync.enums.LabTestState).values()}"
+                                            th:value="${state}"
+                                            th:text="${state}">
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-sm-4 offset-sm-2">
+                                <button type="reset" class="btn btn-secondary mb-2">
+                                    <i class="fas fa-times"></i>
+                                    <a th:href="@{/labtechnician/labtest}" >Cancel</a>
+                                </button>
+                                <button type="submit" class="btn btn-primary mb-2"><i class="fas fa-save"></i> Save</button>
+                            </div>
+                        </div>
+
+
+                    </form>
+                </div>
+
+            </div>
+        </div>
+
+
+    </div>
+</div>
+</body>
+</html>

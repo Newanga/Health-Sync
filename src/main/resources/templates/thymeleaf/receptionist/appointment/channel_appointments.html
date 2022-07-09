@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Receptionist Channel Appointments</title>
+    <th:block th:fragment="optional-css">
+        <link th:href="@{/assets/vendor/datatables/datatables.css}" th:rel="stylesheet">
+    </th:block>
+</head>
+<body>
+
+
+
+<div layout:fragment="container">
+    <div class="row">
+        <div class="col-md-12 col-lg-12">
+<!--            <p class="alert alert-danger" th:if="${error != null}" th:text="${error}"></p>-->
+<!--            <p class="alert alert-success" th:if="${param.success}">A new Appointment was added to the system successfully.</p>-->
+            <!--            <p class="alert alert-success" th:if="${param.update}">Channel was updated successfully.</p>-->
+            <div class="card">
+                <div class="card-header">
+                    <span class="h2">Appointments for channel</span>
+                    <a th:href="@{/receptionist/appointment}" class="btn btn-success float-right"><i class="fas fa-arrow-left"></i> &nbsp; Back</a>
+                </div>
+                <div class="card-body">
+                    <table id="appointments" class="table table-hover DataTable" style="width:100%">
+                        <thead>
+                        <tr>
+                            <td>First Name</td>
+                            <td>Last Name</td>
+                            <td>Contact No</td>
+                            <td>Status</td>
+                            <td>Appointment No</td>
+                            <td></td>
+                        </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<th:block layout:fragment="optional-js" >
+    <script th:src="@{/assets/vendor/datatables/datatables.js}"></script>
+    <script>
+        const id=window.location.pathname.split("/").pop();
+        $('#appointments').DataTable({
+            "ajax": {
+                "url": "/receptionist/appointments/channel/all/" + id,
+                "dataSrc":""
+            },
+            "columns": [
+                {"data": "patient.firstName", "width": "auto"},
+                {"data": "patient.lastName","width": "auto%"},
+                {"data": "patient.contactNo","width": "auto%"},
+                {"data": "state", "width": "auto%"},
+                {"data": "appointmentNo", "width": "auto%"},
+                {
+                    "data": "id",
+                    "render": function (data) {
+                        return ` <span style="display:block; text-align:center; margin:0 auto;">
+                                <a  href="/receptionist/appointments/edit/${data}" class=" btn-sm btn-warning text-black" style="cursor:pointer; width:100px;">
+                                   <i class="fas fa-pen-square"></i>
+                                </a>
+                    </span>`;
+
+                    }, "width": "auto"
+                }
+            ],
+            "language": {
+                "emptyTable": "no data found."
+            },
+            "width": "100%"
+        });
+
+    </script>
+
+
+
+</th:block>
+
+</body>
+</html>

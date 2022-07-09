@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin- New Appointment</title>
+</head>
+<body>
+<div layout:fragment="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+
+                <div class="card-header">
+                    <span class="h2">New Appointment</span>
+                    <a th:href="@{/admin/appointment}" class="btn btn-success float-right"><i class="fas fa-arrow-left"></i> &nbsp; Back</a>
+                </div>
+
+                <div class="card-body">
+                    <form class="form-horizontal" th:action="@{/admin/appointments/book/}" th:object="${appointment}" accept-charset="utf-8" method="post" >
+
+                        <input  type="hidden" readonly="readonly" th:field="*{channel.id}" class="form-control"/>
+
+                        <div class="form-group row">
+                            <label class="col-sm-2" for="docName" > Doctor Name</label>
+                            <div class="col-sm-10">
+                                <input  disabled="disabled" id="docName" type="text" title="docName"   th:field="*{channel.doctor.fullName}"  class="form-control"/>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group row" >
+                            <label class="col-sm-2" for="dateTime" > Date & Time</label>
+                            <div class="col-sm-10 date"
+                                 id="datetimepicker"
+                                 data-target-input="nearest">
+                                <input disabled="disabled"
+                                       autocomplete="off"
+                                       data-toggle="datetimepicker"
+                                       data-target="#datetimepicker"
+                                       id="dateTime"
+                                       type="text"
+                                       title="dateTime"
+                                       th:field="*{channel.dateTime}"
+                                       class="form-control datetimepicker-input"/>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group row" th:classappend="${#fields.hasErrors('patientId')} ? 'has-error'">
+                            <label class="col-sm-2" for="patientId" > Patient Id</label>
+                            <div class="col-sm-10">
+                                <input  id="patientId" type="text" title="patientId"   th:field="*{patientId}"  class="form-control"/>
+                                <span th:if="${#fields.hasErrors('patientId')}" th:errors="*{patientId}" class="text-danger">patient ID Error</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-2">Appointment State</label>
+                            <div class="col-sm-10 select">
+                                <select th:field="*{state}" class="form-control" >
+                                    <option selected="selected" value="None" disabled="disabled">Select Appointment State</option>
+                                    <option th:each="state : ${T(com.team98.healthsync.enums.AppointmentState).values()}"
+                                            th:value="${state}"
+                                            th:text="${state}">
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+
+
+
+
+
+
+                        <div class="form-group row">
+                            <div class="col-sm-4 offset-sm-2">
+                                <button type="reset" class="btn btn-secondary mb-2">
+                                    <i class="fas fa-times"></i>
+                                    <a th:href="@{/admin/appointment}" >Cancel</a>
+                                </button>
+                                <button type="submit" class="btn btn-primary mb-2"><i class="fas fa-save"></i> Save</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+
+
+<th:block layout:fragment="optional-js" >
+    <script th:src="@{/assets/vendor/moment/moment.min.js}"></script>
+    <script th:src="@{/assets/vendor/tempusdominus-bootstrap-4/tempusdominus-bootstrap-4.min.js}"></script>
+
+    <script>
+        $.fn.datetimepicker.Constructor.Default = $.extend({}, $.fn.datetimepicker.Constructor.Default, {
+            icons: {
+                time: 'far fa-clock',
+                date: 'far fa-calendar',
+                up: 'fas fa-arrow-up',
+                down: 'fas fa-arrow-down',
+                previous: 'fas fa-chevron-left',
+                next: 'fas fa-chevron-right',
+                today: 'far fa-calendar-check-o',
+                clear: 'far fa-trash',
+                close: 'far fa-times'
+            } });
+
+        $('#datetimepicker').datetimepicker({
+            format: 'DD/MM/YYYY h:mm A',
+            widgetPositioning: {
+                horizontal: 'left',
+                vertical: 'bottom'
+            }
+        });
+    </script>
+
+
+</th:block>
+</body>
+</html>

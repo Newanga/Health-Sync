@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}" >
+<head>
+    <title>Lab Technicion - Lab Tests</title>
+    <th:block th:fragment="optional-css">
+        <link th:href="@{/assets/vendor/datatables/datatables.css}" th:rel="stylesheet">
+    </th:block>
+</head>
+<body>
+
+<div layout:fragment="container">
+    <div class="row">
+        <div class="col-md-12 col-lg-12">
+            <p class="alert alert-danger" th:if="${error != null}" th:text="${error}"></p>
+            <p class="alert alert-success" th:if="${param.success}">A new lab test was added to the system successfully.</p>
+            <p class="alert alert-success" th:if="${param.cacel}">LabTest was updated successfully.</p>
+            <p class="alert alert-danger" th:if="${param.filesizeerror}">The uploaded file exceeds the max allowed filesize of 5MB.</p>
+            <p class="alert alert-danger" th:if="${param.filetypeerror}">The uploaded file type is invalid. A PDF can only be uploaded.</p>
+            <div class="card">
+                <div class="card-header">
+                    <span class="h2">Lab Tests</span>
+                    <a  th:href="@{/labtechnician/labtest/new}"  class="btn btn-success float-right"><i class="fas fa-plus"></i> &nbsp; New Lab Test</a>
+                </div>
+                <div class="card-body">
+                    <table id="reports" class="table table-hover DataTable" style="width:100%">
+                        <thead>
+                        <tr>
+                            <td>Id</td>
+                            <td>Category</td>
+                            <td>Received Date</td>
+                            <td>Collected Date</td>
+                            <td>State</td>
+                            <td>Patient Name</td>
+                            <td></td>
+                        </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<th:block layout:fragment="optional-js" >
+    <script th:src="@{/assets/vendor/datatables/datatables.js}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+    <script>
+        $('#reports').DataTable({
+            "ajax": {
+                "url": "/labtechnician/labtests",
+                "dataSrc":""
+            },
+            "columns": [
+                {"data": "id", "width": "auto"},
+
+                {"data": "category.name","width": "auto%"},
+
+
+                {"data": "receivedDate",
+                    "render":function(data){
+                        return moment(data).format('MMMM Do YYYY');
+                    }, "width": "auto"},
+
+
+                {"data": "collectedDate",
+                    "render":function(data){
+                        if(data ==null){
+                            return 'To be collected.';
+                        }
+                        else {
+                            return moment(data).format('MMMM Do YYYY');
+                        }
+                    }, "width": "auto"},
+
+                {"data": "state","width": "auto%"},
+
+
+                {"data": "patient",
+                    "render": function ( data, type, row ) {
+                        return  data.firstName +'  '+ data.lastName ;
+                    }, "width": "auto"}
+                ,
+                {
+                    "data": "id",
+                    "render": function (data) {
+                        return ` <span style="display:block; text-align:center; margin:0 auto;">
+                             <a href="/labtechnician/labtests/${data}" class="btn-sm btn-info text-white" style="cursor:pointer; width:100px;">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                                <a  href="/labtechnician/labtests/edit/${data}" class=" btn-sm btn-warning text-black" style="cursor:pointer; width:100px;">
+                                   <i class="fas fa-pen-square"></i>
+                                </a>
+                    </span>`;
+
+                    }, "width": "auto"
+                }
+            ],
+            "language": {
+                "emptyTable": "no data found."
+            },
+            "width": "100%"
+        });
+
+    </script>
+
+
+
+</th:block>
+
+</body>
+</html>
+</body>
+</html>

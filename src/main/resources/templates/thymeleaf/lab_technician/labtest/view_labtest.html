@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>Lab Technicion- View Lab Test</title>
+</head>
+<body>
+
+<div layout:fragment="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+
+                <div class="card-header">
+                    <span class="h2">View Prescription</span>
+                    <a th:href="@{/labtechnician/labtest}" class="btn btn-success float-right"><i class="fas fa-arrow-left"></i> &nbsp; Back</a>
+                </div>
+
+                <div class="card-body" th:object="${report}">
+
+                    <div class="form-group row" >
+                        <label class="col-sm-2" for="id" > Id</label>
+                        <div class="col-sm-10">
+                            <input disabled="disabled" id="id"  th:field="*{id}" type="text" title="lastName" class="form-control"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group row" >
+                        <label class="col-sm-2" for="category" > Category</label>
+                        <div class="col-sm-10">
+                            <input disabled="disabled" id="category"  th:field="*{category.name}" type="text" title="lastName" class="form-control"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group row" >
+                        <label class="col-sm-2" for="receivedDate" > Received Date</label>
+                        <div class="col-sm-10">
+                            <input disabled="disabled" id="receivedDate"  th:field="*{receivedDate}" type="text" title="lastName" class="form-control"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group row" >
+                        <label class="col-sm-2" for="collectedDate" > Collected Date</label>
+                        <div class="col-sm-10">
+                            <input disabled="disabled" id="collectedDate"  th:field="*{collectedDate}" type="text" title="lastName" class="form-control"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group row" >
+                        <label class="col-sm-2" for="state" > state</label>
+                        <div class="col-sm-10">
+                            <input disabled="disabled" id="state"  th:field="*{state}" type="text" title="lastName" class="form-control"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group row" >
+                        <label class="col-sm-2" > Report</label>
+
+
+                        <div th:if="${fileName ==''}" class="col-sm-10">
+                            <input disabled="disabled"  value="Final report still proccessing." type="text" class="form-control"/>
+                        </div>
+
+
+                        <div th:if="${fileName !=''}" class="col-sm-10">
+                            <a target="_blank" th:href="|https://healthsyncstorage.blob.core.windows.net/reports/*{fileName}|" class="text-primary">Click to download your Report</a>
+                        </div>
+
+
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+
+
+</body>
+</html>

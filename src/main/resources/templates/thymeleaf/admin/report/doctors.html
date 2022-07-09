@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Admin- Doctor Report</title>
+    <th:block th:fragment="optional-css">
+        <link th:href="@{/assets/vendor/datatables/datatables.css}" th:rel="stylesheet">
+    </th:block>
+</head>
+<body>
+
+
+
+<div layout:fragment="container">
+    <div class="row">
+        <div class="col-md-12 col-lg-12">
+            <div class="card">
+                <div class="card-header">
+                    <span class="h2">Doctors</span>
+                </div>
+                <div class="card-body">
+                    <table id="doctors" class="table table-hover DataTable table-responsive" style="width:100%">
+                        <thead>
+                        <tr>
+                            <td>Name</td>
+                            <td>Gender</td>
+                            <td>Specialization</td>
+                            <td>NIC</td>
+                            <td>Contact No</td>
+                            <td>Addess</td>
+                            <td>Date of Birth</td>
+                        </tr>
+                        </thead>
+
+
+                        <tfoot style="display: table-header-group;">
+                        <tr>
+                            <td>Name</td>
+                            <td>Gender</td>
+                            <td>Specialization</td>
+                            <td>NIC</td>
+                            <td>Contact No</td>
+                            <td>Addess</td>
+                            <td>Date of Birth</td>
+                        </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<th:block layout:fragment="optional-js" >
+    <script th:src="@{/assets/vendor/datatables/datatables.js}"></script>
+
+    <script src="https://cdn.datatables.net/buttons/1.7.0/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.7.0/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.7.0/js/buttons.print.min.js"></script>
+
+
+
+
+    <script>
+
+        $(document).ready(function() {
+            // Setup - add a text input to each footer cell
+            $('#doctors tfoot td').each( function () {
+                var title = $(this).text();
+                $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
+            } );
+        } );
+
+
+
+
+        $('#doctors').DataTable({
+
+
+            dom: 'lBrtip',
+            buttons: [
+                {
+                    extend: 'excelHtml5',
+                    text: '<i class="fas fa-file-excel"></i> Excel',
+                    titleAttr: 'Excel',
+                    titleAttr: 'Print',
+                    title: function(){
+                        const printTitle = 'Doctor Report';
+                        return printTitle
+                    }
+
+                },
+                {
+                    extend: 'pdfHtml5',
+                    text: '<i class="fas fa-file-pdf"></i> PDF',
+                    titleAttr: 'PDF',
+                    titleAttr: 'Print',
+                    title: function(){
+                        const printTitle = 'Doctor Report';
+                        return printTitle
+                    }
+                },
+                {
+                    extend: 'print',
+                    text: '<i class="fas fa-print"></i> Print',
+                    titleAttr: 'Print',
+                    title: function(){
+                        const printTitle = 'Doctor Report';
+                        return printTitle
+                    }
+                }
+
+            ],
+
+
+            "initComplete": function () {
+
+                // Apply the search
+                this.api().columns().every(function () {
+                    var that = this;
+
+                    $('input', this.footer()).on('keyup change clear', function () {
+                        if (that.search() !== this.value) {
+                            that
+                                .search(this.value)
+                                .draw();
+                        }
+                    });
+                });
+            },
+
+            "ajax": {
+                "url": "/admin/doctors",
+                "dataSrc":""
+            },
+
+
+            "columns": [
+                {"data": "",
+                    "render": function ( data, type, row ) {
+                        return  'Dr. ' + row.firstName +'  '+ row.lastName ;
+                    }, "width": "auto"},
+                {"data": "gender", "width": "auto%"},
+                {"data": "specialization.name", "width": "auto%"},
+                {"data": "nic", "width": "auto%"},
+                {"data": "contactNo", "width": "auto%"},
+                {"data": "address", "width": "auto%"},
+                {"data": "dateOfBirth", "width": "auto%"},
+            ],
+
+
+            "language": {
+                "emptyTable": "no data found."
+            },
+
+
+            "width": "100%"
+        });
+
+    </script>
+
+    <script>
+
+
+
+    </script>
+
+
+</th:block>
+
+</body>
+</html>

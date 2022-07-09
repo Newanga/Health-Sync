@@ -1,0 +1,75 @@
+<html lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Login </title>
+    <link th:href="@{assets/vendor/bootstrap/css/bootstrap.min.css}"th:rel="stylesheet">
+    <link th:href="@{assets/css/auth.css}" th:rel="stylesheet">
+</head>
+
+<body>
+    <div class="wrapper" style="background-image: url('/assets/img/background.jpg');background-size: 100% 100%;">
+        <div class="auth-content">
+            <div th:if="${param.error}" class="alert alert-danger">Invalid username and password.</div>
+            <div th:if="${param.logout}" class="alert alert-success">You have been logged out.</div>
+            <div class="card">
+                <div class="card-body text-center">
+                    <div class="mb-4">
+                        <a href="/"><img class="brand" src="assets/img/logo.svg" width="210" height="42" alt="logo"></a>
+                    </div>
+                    <h6 class="mb-4 text-muted">Login to your account</h6>
+
+                    <form th:action="@{/doLogin}" method="post">
+                        <div class="form-group text-left">
+                            <label for="username">Email address</label>
+                            <input id="username" type="text" class="form-control" name="username" placeholder="Enter Email" required/>
+                        </div>
+
+                        <div class="form-group text-left">
+                            <label for="password">Password</label>
+                            <input id="password" type="password" class="form-control" name="password" placeholder="Password" required/>
+                        </div>
+
+                        <div class="form-group text-left">
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" name="rememberme" class="custom-control-input" id="rememberme"/>
+                                <label class="custom-control-label" for="rememberme">Remember me </label>
+                            </div>
+                        </div>
+
+                        <button class="btn btn-primary shadow-2 mb-4">Login</button>
+                    </form>
+
+                    <p class="mb-2 text-muted">Forgot password? <a style="cursor: pointer;" class="text-primary" data-toggle="modal" data-target="#Modal">Reset</a></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="Modal" tabindex="-1" role="dialog" aria-labelledby="Modal" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Reset Password</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        Please contact the admin in order to rest your login credentials.
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+    <script th:src="@{assets/vendor/jquery/jquery.min.js}"></script>
+    <script th:src="@{assets/vendor/bootstrap/js/bootstrap.min.js}"></script>
+</body>
+
+</html>
